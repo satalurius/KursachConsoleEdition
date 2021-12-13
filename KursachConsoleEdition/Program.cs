@@ -15,18 +15,18 @@ namespace KursachConsoleEdition
             }
             //File.Create(dirInfo + "users_data.json");
             UserModel user = new UserModel();
-            user.Id = 10000;
-            user.FirstName = "Zalupaaaa";
-            Admin admin = new Admin();
-            admin.CreateUserData(user);
+            //user.Id = 2;
+            //user.FirstName = "Бельчич";
 
             UserData userData = new UserData();
-            var test = userData.ReadUserData();
-            foreach (var item in test)
-            {
-                Console.WriteLine($"{item.Id},  {item.FirstName}");
-            }
-  
+            //userData.CreateUserData(user); 
+
+            //userData.ChangeSingleUserData(2, "Шмельчич");
+            //userData.DeleteSingleUserData(1);
+            //userData.ShowSingleUserData(1);
+            
+            userData.ChangeSingleUserData(1, "Бельчич крутой", false);
+            userData.ShowAllUsersData();
         }
     }
 }

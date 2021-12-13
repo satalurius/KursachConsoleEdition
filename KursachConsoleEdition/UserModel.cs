@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace KursachConsoleEdition
 {
-    public struct UserModel
+    public class UserModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
-      /*  public int LastName { get; set; }
+        public string LastName { get; set; }
 
-        public string Address { get; set; }
+        /*public string Address { get; set; }
 
         public DateTime CreatedDate { get; set; }*/
     }
