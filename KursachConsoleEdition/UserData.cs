@@ -98,21 +98,30 @@ namespace KursachConsoleEdition
             File.WriteAllText(path + "users_data.json", json);
         }
 
-        public void ChangeSingleUserData(int id, string parameter, bool secondNameOrFirst )
+        public void ChangeSingleUserData(int id, string parameter, int whatChange )
         {
             List<UserModel> usersData = ReadUsersData();
             
             var userById = usersData.FirstOrDefault(x => x.Id == id);
             // Меняю или Имя или Фамилия
-            if(secondNameOrFirst == true)
+            switch (whatChange)
             {
-                userById.FirstName = parameter;
+                case 1:
+                    userById.FirstName = parameter;
+                    break;
+                case 2:
+                    userById.LastName = parameter;
+                    break;
+                case 3:
+                    userById.Address = parameter;
+                    break;
+                case 4:
+                    userById.Phone = parameter;
+                    break;
+                default:
+                    Console.WriteLine("Выбрано неверное значение");
+                    break;
             }
-            else
-            {
-                userById.LastName = parameter;
-            }
-
             string json = JsonConvert.SerializeObject(usersData);
             File.WriteAllText(path + "users_data.json", json);
         }
