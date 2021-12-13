@@ -50,32 +50,49 @@ namespace KursachConsoleEdition
         {
             List<UserModel> usersData = ReadUsersData();
 
-           foreach (var user in usersData)
-            {
-                Console.WriteLine($"{user.Id},  {user.FirstName}");
-            }
+            foreach (var user in usersData)
+             {
+                 Console.WriteLine($"{user.Id},  {user.FirstName}, {user.LastName}");
+             }
+
+            
+
         }
 
         public void ShowSingleUserData(int id)
         {
             List<UserModel> usersData = ReadUsersData();
             
-            foreach (var user in usersData)
+            /*foreach (var user in usersData)
             {
                 if(user.Id == id)
                 {
                     Console.WriteLine($"{user.Id},  {user.FirstName}");
                 }
-            }
+            }*/
+
+            var userById = usersData.FirstOrDefault(x => x.Id == id);
+            Console.WriteLine($"{userById.Id} ,{ userById.FirstName}, {userById.LastName}");
+
         }
 
         public void DeleteSingleUserData(int id)
         {
             List<UserModel> usersData = ReadUsersData();
 
-            for(int i = 0; i < usersData.Count; i++)
+            /*for(int i = 0; i < usersData.Count; i++)
             {
                 if (usersData[i].Id == id) usersData.RemoveAt(i); 
+            }*/
+
+            var userById = usersData.FirstOrDefault(x => x.Id == id);
+            if (userById != null)
+            {
+                usersData.Remove(userById);
+            }
+            else
+            {
+                Console.WriteLine("Введено пустое значение");
             }
             string json = JsonConvert.SerializeObject(usersData);
             File.WriteAllText(path + "users_data.json", json);
@@ -85,33 +102,15 @@ namespace KursachConsoleEdition
         {
             List<UserModel> usersData = ReadUsersData();
             
-            var test = usersData.FirstOrDefault(x => x.Id == id);
+            var userById = usersData.FirstOrDefault(x => x.Id == id);
             // Меняю или Имя или Фамилия
             if(secondNameOrFirst == true)
             {
-                test.FirstName = parameter;
+                userById.FirstName = parameter;
             }
             else
             {
-                test.LastName = parameter;
-            }
-
-            string json = JsonConvert.SerializeObject(usersData);
-            File.WriteAllText(path + "users_data.json", json);
-        }
-
-
-        public void ChangeSingleUserTest(int id, UserModel usModel)
-        {
-            List<UserModel> usersData = ReadUsersData();
-
-            for (int i = 0; i < usersData.Count; i++)
-            {
-                if (usersData[i].Id == id)
-                {
-                    usersData[i].Id = id;
-                    usersData[i].FirstName = usModel.FirstName;
-                }
+                userById.LastName = parameter;
             }
 
             string json = JsonConvert.SerializeObject(usersData);
