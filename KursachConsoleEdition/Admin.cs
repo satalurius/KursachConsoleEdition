@@ -67,12 +67,7 @@ namespace KursachConsoleEdition
 
             if (userById != null)
             {
-                //usersData.Remove(userById);
-
-                for (int i = 0; i < usersData.Count; i++)
-                {
-                    if (usersData[i].Id == id) usersData.RemoveAt(i);
-                }
+                usersData.Remove(usersData.FirstOrDefault(x => x.Id == id));
 
                 ConvertToJson(usersData);
 
