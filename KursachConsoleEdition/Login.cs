@@ -14,16 +14,39 @@ namespace KursachConsoleEdition
     {
         string path = "data/";
 
-        List<AdminLoginModel> GetLoginData()
+        List<AdminLoginModel> GetAdminLoginData()
         {
             var read = File.ReadAllText(path + "admin_login.json");
             List<AdminLoginModel> json = JsonConvert.DeserializeObject<List<AdminLoginModel>>(read);
             return json;
         }
 
-        public bool CheckCorrectData(string login, string password)
+        List<UserLoginModel> GetUserLoginData()
         {
-            var loginData = GetLoginData();
+            var read = File.ReadAllText(path + "users_login_data.json");
+            List<UserLoginModel> json = JsonConvert.DeserializeObject<List<UserLoginModel>>(read);
+            return json;
+        }
+
+        public bool CheckCorrectAdminData(string login, string password)
+        {
+
+            var loginData = GetAdminLoginData();
+
+            var loginInput = loginData.FirstOrDefault(x => x.Login == login && x.Password == password);
+
+            if (loginInput != null)
+            {
+                Console.WriteLine("Успешно");
+                return true;
+            }
+            return false;
+        }
+
+        public bool CheckCorrectUserData(string login, string password)
+        {
+
+            var loginData = GetUserLoginData();
 
             var loginInput = loginData.FirstOrDefault(x => x.Login == login && x.Password == password);
 

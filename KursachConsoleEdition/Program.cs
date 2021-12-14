@@ -15,12 +15,13 @@ namespace KursachConsoleEdition
                 dirInfo.Create();
             }
             //File.Create(dirInfo + "users_data.json");
-            //Console.WriteLine("Выберите роль");
-            //Console.WriteLine("Администратор");
-            //Console.WriteLine("Пользователь");
+            Console.WriteLine("Выберите роль");
+            Console.WriteLine("1 - Пользователь");
+            Console.WriteLine("2 - Администратор");
+            int role = Convert.ToInt32(Console.ReadLine());
 
             Menu menu = new Menu();
-            menu.LoginMenu();
+            menu.LoginMenu(role);
             menu.MenuMethod();
 
         }

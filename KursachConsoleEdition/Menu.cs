@@ -9,7 +9,7 @@ namespace KursachConsoleEdition
 {
     internal class Menu
     {
-        public void LoginMenu()
+        public void LoginMenu(int role)
         {
             bool checkLogin = false;
 
@@ -24,7 +24,15 @@ namespace KursachConsoleEdition
                     Console.WriteLine("Введите пароль");
                     var password = Console.ReadLine();
 
-                    checkLogin = login.CheckCorrectData(login_console, password);
+                    if(role == 1)
+                    {
+                        checkLogin = login.CheckCorrectUserData(login_console, password);
+                    }
+                    else
+                    {
+                        checkLogin = login.CheckCorrectAdminData(login_console, password);
+                    }
+
                 }
             }
         }
