@@ -24,15 +24,26 @@ namespace KursachConsoleEdition
         }
 
 
+        public UserModel CheckUser(int id)
+        {
+            List<UserModel> usersData = ReadUsersData();
+            var userById = usersData.FirstOrDefault(x => x.Id == id);
+            if(userById != null)
+            {
+                return userById;
+            }
+            return null;
+        }
+
 
         public bool ShowSingleUserData(int id)
         {
-            List<UserModel> usersData = ReadUsersData();
+          
             bool check = false;
 
-            var userById = usersData.FirstOrDefault(x => x.Id == id);
+            var userById = CheckUser(id);
 
-            if(userById != null)
+            if (userById != null)
              {
                 Console.WriteLine($"{userById.Id}, {userById.FirstName}, {userById.LastName}," +
                                 $" {userById.Address}, {userById.Phone}, {userById.CreatedDate}");
@@ -43,19 +54,30 @@ namespace KursachConsoleEdition
                     Console.WriteLine("Пользователь не найден");
                     return check;
                 }
+
         }
 
         public bool DeleteSingleUserData(int id)
         {
             List<UserModel> usersData = ReadUsersData();
+            var userById = CheckUser(id);
             bool check = false;
 
-            var userById = usersData.FirstOrDefault(x => x.Id == id);
+
+
             if (userById != null)
             {
-                usersData.Remove(userById);
+                //usersData.Remove(userById);
+
+                for (int i = 0; i < usersData.Count; i++)
+                {
+                    if (usersData[i].Id == id) usersData.RemoveAt(i);
+                }
+
                 ConvertToJson(usersData);
-                return check = true;
+
+                check = true;
+                return check;
             }
             else
             {
@@ -65,8 +87,9 @@ namespace KursachConsoleEdition
         }
 
 
-        public void ChangeSingleUserData(int id, string parameter, int whatChange)
+        public void ChangeSingleUserData(int id, int whatChange, string parameter)
         {
+
             List<UserModel> usersData = ReadUsersData();
 
             var userById = usersData.FirstOrDefault(x => x.Id == id);

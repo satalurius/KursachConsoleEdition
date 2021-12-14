@@ -31,13 +31,12 @@ namespace KursachConsoleEdition
             //userData.ChangeSingleUserData(1, "Бельчич крутой", false);
             //userData.ShowAllUsersData();
 
+          
             Menu();
 
             void Menu()
             {
                 Admin admin = new Admin();
-
-
 
                 Console.WriteLine("Выберите действие");
                 Console.WriteLine("1 - просмотр пользователей");
@@ -70,11 +69,17 @@ namespace KursachConsoleEdition
                             {
                                 Console.WriteLine("Введите id пользователя");
                                 int id = Convert.ToInt32(Console.ReadLine());
-                                checkId = admin.ShowSingleUserData(id);
+                                var userId = admin.CheckUser(id);
+                                if(userId != null)
+                                {
+                                    checkId = true;
+                                }
+                                var change = WhatToChangeInUser();
+                                Console.WriteLine("Введите значение: ");
+                                var textChange = Console.ReadLine();
+                                admin.ChangeSingleUserData(id, change, textChange);
                             }
                         }
-                        var change = WhatToChangeInUser();
-
                         break;
                     case 4:
                         checkId = false;
@@ -90,7 +95,6 @@ namespace KursachConsoleEdition
                         break;
                     default:
                         break;
-
                 }
             }
 
