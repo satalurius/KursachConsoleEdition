@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Text.Json;
+
 namespace KursachConsoleEdition
 {
 
@@ -16,9 +14,7 @@ namespace KursachConsoleEdition
     {
         string path = "data/";
 
-        
-
-        public void CreateUserData(UserModel user)
+        protected void CreateUserData(UserModel user)
         {
             List<UserModel> us_json = ReadUsersData();
             if (us_json == null)
@@ -37,7 +33,7 @@ namespace KursachConsoleEdition
 
         }
 
-        private List<UserModel> ReadUsersData()
+        protected List<UserModel> ReadUsersData()
         {
            
             var read = File.ReadAllText(path + "users_data.json");
@@ -46,85 +42,15 @@ namespace KursachConsoleEdition
             return userData;
         }
 
-        public void ShowAllUsersData()
+        protected void ConvertToJson(List<UserModel> userData)
         {
-            List<UserModel> usersData = ReadUsersData();
-
-            foreach (var user in usersData)
-             {
-                 Console.WriteLine($"{user.Id},  {user.FirstName}, {user.LastName}");
-             }
-
-            
-
-        }
-
-        public void ShowSingleUserData(int id)
-        {
-            List<UserModel> usersData = ReadUsersData();
-            
-            /*foreach (var user in usersData)
-            {
-                if(user.Id == id)
-                {
-                    Console.WriteLine($"{user.Id},  {user.FirstName}");
-                }
-            }*/
-
-            var userById = usersData.FirstOrDefault(x => x.Id == id);
-            Console.WriteLine($"{userById.Id} ,{ userById.FirstName}, {userById.LastName}");
-
-        }
-
-        public void DeleteSingleUserData(int id)
-        {
-            List<UserModel> usersData = ReadUsersData();
-
-            /*for(int i = 0; i < usersData.Count; i++)
-            {
-                if (usersData[i].Id == id) usersData.RemoveAt(i); 
-            }*/
-
-            var userById = usersData.FirstOrDefault(x => x.Id == id);
-            if (userById != null)
-            {
-                usersData.Remove(userById);
-            }
-            else
-            {
-                Console.WriteLine("Введено пустое значение");
-            }
-            string json = JsonConvert.SerializeObject(usersData);
+            string json = JsonConvert.SerializeObject(userData);
             File.WriteAllText(path + "users_data.json", json);
         }
 
-        public void ChangeSingleUserData(int id, string parameter, int whatChange )
-        {
-            List<UserModel> usersData = ReadUsersData();
-            
-            var userById = usersData.FirstOrDefault(x => x.Id == id);
-            // Меняю или Имя или Фамилия
-            switch (whatChange)
-            {
-                case 1:
-                    userById.FirstName = parameter;
-                    break;
-                case 2:
-                    userById.LastName = parameter;
-                    break;
-                case 3:
-                    userById.Address = parameter;
-                    break;
-                case 4:
-                    userById.Phone = parameter;
-                    break;
-                default:
-                    Console.WriteLine("Выбрано неверное значение");
-                    break;
-            }
-            string json = JsonConvert.SerializeObject(usersData);
-            File.WriteAllText(path + "users_data.json", json);
-        }
 
+
+
+ 
     }
 }
