@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace KursachConsoleEdition
 {
@@ -14,26 +15,7 @@ namespace KursachConsoleEdition
                 dirInfo.Create();
             }
             //File.Create(dirInfo + "users_data.json");
-            UserModel user = new UserModel();
-            /*user.Id = 1;
-            user.FirstName = "Пупка";
-            user.LastName = "Залупка";
-            user.Phone = "987654321";
-            */
-                
-
-            UserData userData = new UserData();
-            //userData.CreateUserData(user); 
-
-            //userData.ChangeSingleUserData(2, "Поспать", false);
-            //userData.DeleteSingleUserData(1);
-            //userData.ShowSingleUserData(1);
-
-            //userData.ChangeSingleUserData(1, "Бельчич крутой", false);
-            //userData.ShowAllUsersData();
-
-            //Admin admin = new Admin();
-            //admin.CreateUser("четвертый юзер", "pipez", "rksi", "1488999");
+ 
             Menu();
 
             void Menu()
@@ -122,8 +104,7 @@ namespace KursachConsoleEdition
                 Console.WriteLine("1 - Имя");
                 Console.WriteLine("2 - Фамилия");
                 Console.WriteLine("3 - Адрес");
-                Console.WriteLine("4 - Номер телефона");
-                Console.WriteLine("5 - Номер телефона");
+                Console.WriteLine("4 - Номер телефона (8)");
                 int change = Convert.ToInt32(Console.ReadLine());
                 return change;
             }
@@ -137,8 +118,24 @@ namespace KursachConsoleEdition
                 data[1] = Console.ReadLine();
                 Console.WriteLine("Адрес: ");
                 data[2] = Console.ReadLine();
-                Console.WriteLine("Номер телефона: ");
-                data[3] = Console.ReadLine();
+
+                bool checkNumber = false;
+
+                while(!checkNumber)
+                {
+                    Console.WriteLine("Номер телефона: ");
+                    data[3] = Console.ReadLine();
+
+                    if (!Regex.IsMatch(data[3], @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$"))
+                    {
+                        Console.WriteLine("Неправильно введен номер");
+                        Console.WriteLine("Повторите попытку");
+                       data[3] = Console.ReadLine();
+                    }
+                    else
+                        checkNumber = true;
+                }
+
                 return data;
             }
             
