@@ -14,20 +14,20 @@ namespace KursachConsoleEdition
     {
         string path = "data/";
 
-        protected void CreateUserData(UserModel user)
+        protected virtual void CreateUserData(UserModel user)
         {
             List<UserModel> us_json = ReadUsersData();
             if (us_json == null)
             {
                 List<UserModel> _data = new List<UserModel>();
                 _data.Add(user);
-                String json = JsonConvert.SerializeObject(_data.ToArray());
+                string json = JsonConvert.SerializeObject(_data.ToArray());
                 File.WriteAllText(path + "users_data.json", json);
             }
             else
             {
                 us_json.Add(user);
-                String json = JsonConvert.SerializeObject(us_json);
+                string json = JsonConvert.SerializeObject(us_json);
                 File.WriteAllText(path + "users_data.json", json);
             }
 

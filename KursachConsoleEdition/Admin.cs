@@ -110,6 +110,21 @@ namespace KursachConsoleEdition
            ConvertToJson(usersData);
         }
 
+        public void CreateUser(string firstName, string lastName, string address, string phone)
+        {
+            UserModel user = new UserModel();
+
+            List<UserModel> usersData = ReadUsersData();
+            var userById = usersData.Last();
+
+            user.Id = userById.Id + 1;
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            user.Address = address;
+            user.Phone = phone;
+            user.CreatedDate = DateTime.Now;
+            CreateUserData(user);
+        }
 
 
     }
