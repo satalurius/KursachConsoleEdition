@@ -33,7 +33,8 @@ namespace KursachConsoleEdition
             {
                 return userById;
             }
-            return null;
+            else { return null; }
+            
         }
 
 

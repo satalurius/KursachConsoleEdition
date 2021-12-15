@@ -29,7 +29,7 @@ namespace KursachConsoleEdition
 
             Console.WriteLine("Данные для входа хранятся файле checkfordata (^.^)/");
             Menu menu = new Menu();
-            menu.LoginMenu();
+            //menu.LoginMenu();
             menu.AdminMenu();
 
             void CreateDefaultTextFile(string filePath, string text)

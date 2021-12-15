@@ -25,14 +25,6 @@ namespace KursachConsoleEdition
                     var password = Console.ReadLine();
                     checkLogin = login.CheckCorrectAdminData(login_console, password);
 
-                    /*if(role == 1)
-                    {
-                        checkLogin = login.CheckCorrectUserData(login_console, password);
-                    }
-                    else
-                    {
-                        checkLogin = login.CheckCorrectAdminData(login_console, password);
-                    }*/
 
                 }
             }
@@ -67,9 +59,14 @@ namespace KursachConsoleEdition
                         {
                             if (!checkId)
                             {
-                                Console.WriteLine("Введите id пользователя");
+                                Console.WriteLine("Введите id пользователя (для выхода - 0)");
                                 int id = Convert.ToInt32(Console.ReadLine());
+                                if (id == 0) break;
                                 checkId = admin.ShowSingleUserData(id);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Нет такого пользователя");
                             }
                         }
                         break;
@@ -79,17 +76,44 @@ namespace KursachConsoleEdition
                         {
                             if (!checkId)
                             {
-                                Console.WriteLine("Введите id пользователя");
+                                Console.WriteLine("Введите id пользователя (для выхода - 0)");
                                 int id = Convert.ToInt32(Console.ReadLine());
+                                if (id == 0) break;
                                 var userId = admin.CheckUser(id);
                                 if (userId != null)
                                 {
                                     checkId = true;
+                                    var change = WhatToChangeInUser();
+                                    string textChange = "";
+                                    bool checkNumber = false;
+                                    if (change == 4)
+                                    {
+                                        while (!checkNumber)
+                                        {
+                                            Console.WriteLine("Введите значение: ");
+                                            textChange = Console.ReadLine();
+
+                                            if (!Regex.IsMatch(textChange, @"^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$"))
+                                            {
+                                                Console.WriteLine("Неправильно введен номер");
+                                                Console.WriteLine("Повторите попытку");
+                                            }
+                                            else
+                                                checkNumber = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Введите значение: ");
+                                        textChange = Console.ReadLine();
+                                    }
+                                 
+                                    admin.ChangeSingleUserData(id, change, textChange);
                                 }
-                                var change = WhatToChangeInUser();
-                                Console.WriteLine("Введите значение: ");
-                                var textChange = Console.ReadLine();
-                                admin.ChangeSingleUserData(id, change, textChange);
+                                else
+                                {
+                                    Console.WriteLine("Нет такого пользователя");
+                                }
                             }
                         }
                         break;
@@ -99,15 +123,19 @@ namespace KursachConsoleEdition
                         {
                             if (!checkId)
                             {
-                                Console.WriteLine("Введите id пользователя");
+                                Console.WriteLine("Введите id пользователя if (id == 0) break;");
                                 int id = Convert.ToInt32(Console.ReadLine());
                                 checkId = admin.DeleteSingleUserData(id);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Нет такого пользователя");
                             }
                         }
                         break;
                     case 5:
                         var data = InputToCreateUser();
-                        int tariff = ChoseTariffType();
+                        int tariff = ChoseTariffType(); 
                         admin.CreateUser(data[0], data[1], data[2], data[3], tariff);
                         break;
                     case 6:
@@ -123,18 +151,18 @@ namespace KursachConsoleEdition
             bool check = false;
             while(!check)
             {
-            Console.WriteLine("Выберите, что изменить");
-            Console.WriteLine("1 - Имя");
-            Console.WriteLine("2 - Фамилия");
-            Console.WriteLine("3 - Адрес");
-            Console.WriteLine("4 - Номер телефона (8)");
-            Console.WriteLine("5 - тариф");
-            int change = Convert.ToInt32(Console.ReadLine());
-            if(!(change >= 1 && change <= 5))
-            {
-                Console.WriteLine("Выбрано неверное значение");
-            }
-                else { check = true; return change; }
+                Console.WriteLine("Выберите, что изменить");
+                Console.WriteLine("1 - Имя");
+                Console.WriteLine("2 - Фамилия");
+                Console.WriteLine("3 - Адрес");
+                Console.WriteLine("4 - Номер телефона (8)");
+                Console.WriteLine("5 - Тариф");
+                int change = Convert.ToInt32(Console.ReadLine());
+                if(!(change >= 1 && change <= 5))
+                {
+                    Console.WriteLine("Выбрано неверное значение");
+                }
+                    else { check = true; return change; }
             }
             return -1;
         }
@@ -148,7 +176,6 @@ namespace KursachConsoleEdition
             data[1] = Console.ReadLine();
             Console.WriteLine("Адрес: ");
             data[2] = Console.ReadLine();
-
             bool checkNumber = false;
 
             while (!checkNumber)
