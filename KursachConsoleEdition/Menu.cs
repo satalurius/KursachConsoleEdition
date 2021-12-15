@@ -160,7 +160,6 @@ namespace KursachConsoleEdition
                 {
                     Console.WriteLine("Неправильно введен номер");
                     Console.WriteLine("Повторите попытку");
-                    data[3] = Console.ReadLine();
                 }
                 else
                     checkNumber = true;

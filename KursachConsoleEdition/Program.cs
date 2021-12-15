@@ -27,6 +27,7 @@ namespace KursachConsoleEdition
 
             CreateDefaultTextFile(dataForLogin, "Данные для первого админа: admin1 passw0rd. \n Для второго: admin2 parol");
 
+            Console.WriteLine("Данные для входа хранятся файле checkfordata (^.^)/");
             Menu menu = new Menu();
             menu.LoginMenu();
             menu.AdminMenu();
