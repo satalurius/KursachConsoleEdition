@@ -9,7 +9,7 @@ namespace KursachConsoleEdition
 {
     internal class Menu
     {
-        public void LoginMenu(int role)
+        public void LoginMenu()
         {
             bool checkLogin = false;
 
@@ -23,20 +23,21 @@ namespace KursachConsoleEdition
                     var login_console = Console.ReadLine();
                     Console.WriteLine("Введите пароль");
                     var password = Console.ReadLine();
+                    checkLogin = login.CheckCorrectAdminData(login_console, password);
 
-                    if(role == 1)
+                    /*if(role == 1)
                     {
                         checkLogin = login.CheckCorrectUserData(login_console, password);
                     }
                     else
                     {
                         checkLogin = login.CheckCorrectAdminData(login_console, password);
-                    }
+                    }*/
 
                 }
             }
         }
-        public void MenuMethod()
+        public void AdminMenu()
         {
             Admin admin = new Admin();
             bool checkExit = false;
@@ -106,7 +107,8 @@ namespace KursachConsoleEdition
                         break;
                     case 5:
                         var data = InputToCreateUser();
-                        admin.CreateUser(data[0], data[1], data[2], data[3]);
+                        int tariff = ChoseTariffType();
+                        admin.CreateUser(data[0], data[1], data[2], data[3], tariff);
                         break;
                     case 6:
                     default:
@@ -118,18 +120,28 @@ namespace KursachConsoleEdition
 
         int WhatToChangeInUser()
         {
+            bool check = false;
+            while(!check)
+            {
             Console.WriteLine("Выберите, что изменить");
             Console.WriteLine("1 - Имя");
             Console.WriteLine("2 - Фамилия");
             Console.WriteLine("3 - Адрес");
             Console.WriteLine("4 - Номер телефона (8)");
+            Console.WriteLine("5 - тариф");
             int change = Convert.ToInt32(Console.ReadLine());
-            return change;
+            if(!(change >= 1 && change <= 5))
+            {
+                Console.WriteLine("Выбрано неверное значение");
+            }
+                else { check = true; return change; }
+            }
+            return -1;
         }
 
         string[] InputToCreateUser()
         {
-            string[] data = new string[4];
+            string[] data = new string[5];
             Console.WriteLine("Имя: ");
             data[0] = Console.ReadLine();
             Console.WriteLine("Фамилия: ");
@@ -154,8 +166,20 @@ namespace KursachConsoleEdition
                     checkNumber = true;
             }
 
+            
+
             return data;
         }
+
+        int ChoseTariffType()
+        {
+            Console.WriteLine("Тариф:");
+            Console.WriteLine("\t1 - Семейная близость");
+            Console.WriteLine("\t2 - Единоличник");
+            Console.WriteLine("\t3 - Вседоступный");
+            return Convert.ToInt32(Console.ReadLine());
+        }
+
 
     }
 }

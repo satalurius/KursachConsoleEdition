@@ -19,7 +19,8 @@ namespace KursachConsoleEdition
             
             foreach (var item in data)
             {
-                Console.WriteLine($"{item.Id}, {item.FirstName}, {item.LastName}, {item.Address}, {item.Phone}, {item.CreatedDate}");
+                Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+                Console.WriteLine($" {item.Id} | {item.FirstName} | {item.LastName} | {item.Address} | {item.Phone} | {item.Tariff} | {item.CreatedDate} | ");
             }
         }
 
@@ -110,18 +111,42 @@ namespace KursachConsoleEdition
            ConvertToJson(usersData);
         }
 
-        public void CreateUser(string firstName, string lastName, string address, string phone)
+        public void CreateUser(string firstName, string lastName, string address, string phone, int tariffType)
         {
             UserModel user = new UserModel();
 
             List<UserModel> usersData = ReadUsersData();
+            var usersCount = usersData.Count;
+            if(usersCount == 0)
+            {
+                user.Id = 1;
+            }
+            else
+            {
             var userById = usersData.Last();
-
             user.Id = userById.Id + 1;
+            }
+            string tariff = "";
+
+            switch(tariffType)
+            {
+                case 1:
+                    tariff = "Семейная близость";
+                    break;
+                case 2:
+                    tariff = "Единоличник";
+                    break;
+                case 3:
+                    tariff = "Вседоступный";
+                    break;
+            }
+
+
             user.FirstName = firstName;
             user.LastName = lastName;
             user.Address = address;
             user.Phone = phone;
+            user.Tariff = tariff;
             user.CreatedDate = DateTime.Now;
             CreateUserData(user);
         }

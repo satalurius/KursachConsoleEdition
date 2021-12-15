@@ -14,16 +14,35 @@ namespace KursachConsoleEdition
             {
                 dirInfo.Create();
             }
-            //File.Create(dirInfo + "users_data.json");
-            Console.WriteLine("Выберите роль");
-            Console.WriteLine("1 - Пользователь");
-            Console.WriteLine("2 - Администратор");
-            int role = Convert.ToInt32(Console.ReadLine());
+
+            string existUserData = "data/users_data.json";
+            string existAdmin = "data/admin_login.json";
+            string dataForLogin = "checkForData.txt";
+
+            //Создание json для юзера
+            CreateDefaultTextFile(existUserData, "[]");
+
+            //Создание json для админа 
+            CreateDefaultTextFile(existAdmin, "[{\"login\": \"admin1\", \"password\": \"passw0rd\"}, {\"login\": \"admin2\", \"password\": \"parol\"}]");
+
+            CreateDefaultTextFile(dataForLogin, "Данные для первого админа: admin1 passw0rd. \n Для второго: admin2 parol");
 
             Menu menu = new Menu();
-            menu.LoginMenu(role);
-            menu.MenuMethod();
+            menu.LoginMenu();
+            menu.AdminMenu();
 
+            void CreateDefaultTextFile(string filePath, string text)
+            {
+                if (!File.Exists(filePath))
+                {
+                    using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
+                    {
+                        byte[] array = System.Text.Encoding.Default.GetBytes(text);
+                        fileStream.Write(array, 0, array.Length);
+                    }
+                }
+
+            }
         }
     }
 }

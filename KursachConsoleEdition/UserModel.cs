@@ -15,6 +15,7 @@ namespace KursachConsoleEdition
         public string Address { get; set; }
         public string Phone { get; set; }
 
+        public string Tariff { get; set; }
 
         public DateTime CreatedDate { get; set; }
     }
