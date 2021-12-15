@@ -8,69 +8,150 @@ using Newtonsoft.Json;
 
 namespace KursachConsoleEdition
 {
-    internal class Admin
+    // Чтобы напрямую не работать с userdata, admin будет посредником
+    public class Admin : UserData
     {
-        //new List<User> list = new List<User>();
-
-      /*  new User user = new User() {Id = 1, FirstName = "Pupa" };
-
-        new User user2 = new User() { Id = 2, FirstName = "Zalupa" };
-
-
-        public void Users_Data()
+        
+        //UserData userData = new UserData();
+        public void ShowUsersData()
         {
-            var path = "data/";
-            var read = File.ReadAllText(path + "users_data.json");
-            List<User> us_json = JsonConvert.DeserializeObject<List<User>>(read);
-
-            if (us_json == null)
+            var data = ReadUsersData();
+            
+            foreach (var item in data)
             {
-                List<User> _data = new List<User>();
-                _data.Add(user2);
-                String json = JsonConvert.SerializeObject(_data.ToArray());
-                File.WriteAllText(path + "users_data.json", json);
+                Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+                Console.WriteLine($" {item.Id} | {item.FirstName} | {item.LastName} | {item.Address} | {item.Phone} | {item.Tariff} | {item.CreatedDate} | ");
             }
-            else
-            {
-                us_json.Add(user);
-                String json = JsonConvert.SerializeObject(us_json);
-                File.WriteAllText(path + "users_data.json", json);
-            }
-            *//* list.Add(user);*/
-            /* list.Add(user2);*/
-
-            /*            JsonSerializer serializer = new JsonSerializer();
-            */
-            /* using (StreamWriter sw = new StreamWriter(@".\test.json"))
-             using (JsonWriter writer = new JsonTextWriter(sw))
-             {
-                 serializer.Serialize(writer, list);
-
-             }*//*
-        }*/
+        }
 
 
-        public void CreateUserData(UserModel user)
+        public UserModel CheckUser(int id)
         {
-            var path = "data/";
-            var read = File.ReadAllText(path + "users_data.json");
-            List<UserModel> us_json = JsonConvert.DeserializeObject<List<UserModel>>(read);
-
-            if (us_json == null)
+            List<UserModel> usersData = ReadUsersData();
+            var userById = usersData.FirstOrDefault(x => x.Id == id);
+            if(userById != null)
             {
-                List<UserModel> _data = new List<UserModel>();
-                _data.Add(user);
-                String json = JsonConvert.SerializeObject(_data.ToArray());
-                File.WriteAllText(path + "users_data.json", json);
+                return userById;
             }
-            else
-            {
-                us_json.Add(user);
-                String json = JsonConvert.SerializeObject(us_json);
-                File.WriteAllText(path + "users_data.json", json);
-            }
+            else { return null; }
             
         }
+
+
+        public bool ShowSingleUserData(int id)
+        {
+          
+            bool check = false;
+
+            var userById = CheckUser(id);
+
+            if (userById != null)
+             {
+                Console.WriteLine($"{userById.Id}, {userById.FirstName}, {userById.LastName}," +
+                                $" {userById.Address}, {userById.Phone}, {userById.CreatedDate}");
+                return check = true;
+            }
+               else
+                {
+                    Console.WriteLine("Пользователь не найден");
+                    return check;
+                }
+
+        }
+
+        public bool DeleteSingleUserData(int id)
+        {
+            List<UserModel> usersData = ReadUsersData();
+            var userById = CheckUser(id);
+            bool check = false;
+
+
+
+            if (userById != null)
+            {
+                usersData.Remove(usersData.FirstOrDefault(x => x.Id == id));
+
+                ConvertToJson(usersData);
+
+                check = true;
+                return check;
+            }
+            else
+            {
+                Console.WriteLine("Введено пустое значение");
+                return check;
+            }
+        }
+
+
+        public void ChangeSingleUserData(int id, int whatChange, string parameter)
+        {
+
+            List<UserModel> usersData = ReadUsersData();
+
+            var userById = usersData.FirstOrDefault(x => x.Id == id);
+            // Меняю или Имя или Фамилия
+            switch (whatChange)
+            {
+                case 1:
+                    userById.FirstName = parameter;
+                    break;
+                case 2:
+                    userById.LastName = parameter;
+                    break;
+                case 3:
+                    userById.Address = parameter;
+                    break;
+                case 4:
+                    userById.Phone = parameter;
+                    break;
+                default:
+                    Console.WriteLine("Выбрано неверное значение");
+                    break;
+            }
+           ConvertToJson(usersData);
+        }
+
+        public void CreateUser(string firstName, string lastName, string address, string phone, int tariffType)
+        {
+            UserModel user = new UserModel();
+
+            List<UserModel> usersData = ReadUsersData();
+            var usersCount = usersData.Count;
+            if(usersCount == 0)
+            {
+                user.Id = 1;
+            }
+            else
+            {
+            var userById = usersData.Last();
+            user.Id = userById.Id + 1;
+            }
+            string tariff = "";
+
+            switch(tariffType)
+            {
+                case 1:
+                    tariff = "Семейная близость";
+                    break;
+                case 2:
+                    tariff = "Единоличник";
+                    break;
+                case 3:
+                    tariff = "Вседоступный";
+                    break;
+            }
+
+
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            user.Address = address;
+            user.Phone = phone;
+            user.Tariff = tariff;
+            user.CreatedDate = DateTime.Now;
+            CreateUserData(user);
+        }
+
 
     }
 }

@@ -1,32 +1,49 @@
 ﻿using System;
 using System.IO;
 
+
 namespace KursachConsoleEdition
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //Console.WriteLine("Hello World!");
             DirectoryInfo dirInfo = new DirectoryInfo("data/");
             if (!dirInfo.Exists)
             {
                 dirInfo.Create();
             }
-            //File.Create(dirInfo + "users_data.json");
-            UserModel user = new UserModel();
-            user.Id = 10000;
-            user.FirstName = "Zalupaaaa";
-            Admin admin = new Admin();
-            admin.CreateUserData(user);
 
-            UserData userData = new UserData();
-            var test = userData.ReadUserData();
-            foreach (var item in test)
+            string existUserData = "data/users_data.json";
+            string existAdmin = "data/admin_login.json";
+            string dataForLogin = "checkForData.txt";
+
+            //Создание json для юзера
+            CreateDefaultTextFile(existUserData, "[]");
+
+            //Создание json для админа 
+            CreateDefaultTextFile(existAdmin, "[{\"login\": \"admin1\", \"password\": \"passw0rd\"}, {\"login\": \"admin2\", \"password\": \"parol\"}]");
+
+            CreateDefaultTextFile(dataForLogin, "Данные для первого админа: admin1 passw0rd. \n Для второго: admin2 parol");
+
+            Console.WriteLine("Данные для входа хранятся файле checkfordata (^.^)/");
+            Menu menu = new Menu();
+            //menu.LoginMenu();
+            menu.AdminMenu();
+
+            void CreateDefaultTextFile(string filePath, string text)
             {
-                Console.WriteLine($"{item.Id},  {item.FirstName}");
+                if (!File.Exists(filePath))
+                {
+                    using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate))
+                    {
+                        byte[] array = System.Text.Encoding.Default.GetBytes(text);
+                        fileStream.Write(array, 0, array.Length);
+                    }
+                }
+
             }
-  
         }
     }
 }
