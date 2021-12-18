@@ -6,10 +6,6 @@ using System.Linq;
 
 namespace KursachConsoleEdition
 {
-
-    // Поток Fstream почекать
-    // свич кейс, там где парам bool, когда будет несколько аргументов, ну вернее сейчас сделать бы
-
     public class UserData
     {
         string path = "data/";
@@ -47,10 +43,5 @@ namespace KursachConsoleEdition
             string json = JsonConvert.SerializeObject(userData);
             File.WriteAllText(path + "users_data.json", json);
         }
-
-
-
-
- 
     }
 }
