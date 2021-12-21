@@ -12,7 +12,6 @@ namespace KursachConsoleEdition
     public class Admin : UserData
     {
         
-        //UserData userData = new UserData();
         public void ShowUsersData()
         {
             var data = ReadUsersData();

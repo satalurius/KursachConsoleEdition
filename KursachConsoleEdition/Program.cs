@@ -8,7 +8,6 @@ namespace KursachConsoleEdition
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Hello World!");
             DirectoryInfo dirInfo = new DirectoryInfo("data/");
             if (!dirInfo.Exists)
             {

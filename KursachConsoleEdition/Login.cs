@@ -21,32 +21,10 @@ namespace KursachConsoleEdition
             return json;
         }
 
-        List<UserLoginModel> GetUserLoginData()
-        {
-            var read = File.ReadAllText(path + "users_login_data.json");
-            List<UserLoginModel> json = JsonConvert.DeserializeObject<List<UserLoginModel>>(read);
-            return json;
-        }
-
         public bool CheckCorrectAdminData(string login, string password)
         {
 
             var loginData = GetAdminLoginData();
-
-            var loginInput = loginData.FirstOrDefault(x => x.Login == login && x.Password == password);
-
-            if (loginInput != null)
-            {
-                Console.WriteLine("Успешно");
-                return true;
-            }
-            return false;
-        }
-
-        public bool CheckCorrectUserData(string login, string password)
-        {
-
-            var loginData = GetUserLoginData();
 
             var loginInput = loginData.FirstOrDefault(x => x.Login == login && x.Password == password);
 
